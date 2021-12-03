@@ -1,5 +1,8 @@
 package com.dyurekdeler.OnlineMovieStoreInventory.controller
 
+import com.dyurekdeler.OnlineMovieStoreInventory.entity.Movie
+import com.dyurekdeler.OnlineMovieStoreInventory.repository.MovieRepository
+import com.dyurekdeler.OnlineMovieStoreInventory.request.MovieRequest
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -26,7 +29,8 @@ class MovieController(
         val movie = movieRepository.save(Movie(
             title = request.title,
             duration = request.duration,
-            about = request.about
+            about = request.about,
+            quantity = request.quantity
         ))
         return ResponseEntity(movie, HttpStatus.CREATED)
     }
@@ -39,6 +43,7 @@ class MovieController(
             title = request.title,
             duration = request.duration,
             about = request.about,
+            quantity = request.quantity,
             createdDate = movie.createdDate,
             modifiedDate = LocalDateTime.now()
         ))

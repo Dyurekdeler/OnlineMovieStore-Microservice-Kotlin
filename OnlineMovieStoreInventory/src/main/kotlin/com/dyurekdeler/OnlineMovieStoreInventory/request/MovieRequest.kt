@@ -7,5 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 class MovieRequest (
     val title: String,
     val duration: Int,
-    val about: String
+    val about: String,
+    val quantity: Int
 )
