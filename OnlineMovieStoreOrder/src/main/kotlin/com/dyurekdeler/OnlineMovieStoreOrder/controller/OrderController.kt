@@ -1,5 +1,9 @@
 package com.dyurekdeler.OnlineMovieStoreOrder.controller
 
+import com.dyurekdeler.OnlineMovieStoreOrder.entity.Order
+import com.dyurekdeler.OnlineMovieStoreOrder.repository.OrderRepository
+import com.dyurekdeler.OnlineMovieStoreOrder.request.OrderRequest
+import com.dyurekdeler.OnlineMovieStoreOrder.service.OrderService
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -7,6 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 class OrderController(
+    private val orderService: OrderService,
     private val orderRepository: OrderRepository
 ) {
     @GetMapping()
@@ -23,12 +28,7 @@ class OrderController(
 
     @PostMapping
     fun createOrder(@RequestBody request: OrderRequest): ResponseEntity<Order> {
-        val order = orderRepository.save(
-            Order(
-                movieId = request.movieId,
-                customerId = request.customerId,
-            )
-        )
+        val order = orderService.placeOrder(request)
         return ResponseEntity(order, HttpStatus.CREATED)
     }
 
@@ -40,6 +40,7 @@ class OrderController(
                 id = order.id,
                 movieId = request.movieId,
                 customerId = request.customerId,
+                quantity = request.quantity,
                 createdDate = order.createdDate,
                 modifiedDate = LocalDateTime.now()
             )
@@ -53,9 +54,4 @@ class OrderController(
         return ResponseEntity.noContent().build()
     }
 
-
-    fun cancelOrder(orderId: Long) {
-        // todo: cancel order
-        // update order status to canceled
-    }
 }

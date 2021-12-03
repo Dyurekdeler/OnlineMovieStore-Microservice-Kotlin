@@ -9,6 +9,7 @@ data class Order(
     val id: ObjectId = ObjectId.get(),
     val customerId: ObjectId,
     val movieId: ObjectId,
+    val quantity: Int,
     val createdDate: LocalDateTime = LocalDateTime.now(),
     val modifiedDate: LocalDateTime = LocalDateTime.now()
 )
