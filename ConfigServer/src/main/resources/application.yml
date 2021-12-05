@@ -1,10 +1,16 @@
-Server:
+server:
   port: 8888
 spring:
+  application:
+    name: "config"
+  eureka:
+    client:
+      healthcheck:
+        enabled: true
   profiles:
     active: native
   cloud:
     config:
       server:
         native:
-          search-locations: classpath:config/
+          search-locations: classpath:config/ 

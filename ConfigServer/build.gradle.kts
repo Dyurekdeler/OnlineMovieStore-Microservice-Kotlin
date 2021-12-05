@@ -24,6 +24,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-server
 	implementation("org.springframework.cloud:spring-cloud-config-server:3.1.0")
+	// https://mvnrepository.com/artifact/com.netflix.eureka/eureka-client
+	runtimeOnly("com.netflix.eureka:eureka-client:1.10.17")
+
+
 
 }
 
