@@ -24,8 +24,12 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
 	implementation("org.springframework.data:spring-data-jpa:2.6.0")
-// https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
 	implementation("org.springframework.data:spring-data-mongodb:3.3.0")
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
+	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
+	implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
 
 }
 
