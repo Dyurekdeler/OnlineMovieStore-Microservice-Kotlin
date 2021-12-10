@@ -1,5 +1,9 @@
 package com.dyurekdeler.OnlineMovieStoreCustomer.request
 
 class CustomerRequest (
-    val name: String,
+    val firstname: String,
+    val lastname: String,
+    val address: String,
+    val phone: String,
+
 )

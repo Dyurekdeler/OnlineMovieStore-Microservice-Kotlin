@@ -28,7 +28,10 @@ class CustomerController(
     @PostMapping
     fun createCustomer(@RequestBody request: CustomerRequest): ResponseEntity<Customer> {
         val customer = customerRepository.save(Customer(
-            name = request.name,
+            firstname = request.firstname,
+            lastname = request.lastname,
+            address = request.address,
+            phone = request.phone,
         ))
         return ResponseEntity(customer, HttpStatus.CREATED)
     }
@@ -39,7 +42,10 @@ class CustomerController(
         val updatedCustomer = customerRepository.save(
             Customer(
                 id = customer.id,
-                name = request.name,
+                firstname = request.firstname,
+                lastname = request.lastname,
+                address = request.address,
+                phone = request.phone,
                 createdDate = customer.createdDate,
                 modifiedDate = LocalDateTime.now()
             )
