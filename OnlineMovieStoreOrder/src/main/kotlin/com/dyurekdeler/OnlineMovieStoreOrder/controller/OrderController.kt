@@ -41,6 +41,7 @@ class OrderController(
                 movieId = request.movieId,
                 customerId = request.customerId,
                 quantity = request.quantity,
+                isCanceled = request.isCanceled,
                 createdDate = order.createdDate,
                 modifiedDate = LocalDateTime.now()
             )

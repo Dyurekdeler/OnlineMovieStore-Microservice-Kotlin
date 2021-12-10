@@ -6,4 +6,5 @@ class OrderRequest (
     val movieId: ObjectId,
     val customerId: ObjectId,
     val quantity: Int,
+    val isCanceled: Boolean
 )
