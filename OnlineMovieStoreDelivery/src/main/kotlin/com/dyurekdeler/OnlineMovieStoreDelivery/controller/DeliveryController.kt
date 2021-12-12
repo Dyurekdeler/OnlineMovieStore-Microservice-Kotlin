@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+@RestController
+@RequestMapping("/deliveries")
 class DeliveryController(
     private val deliveryRepository: DeliveryRepository
 ) {
