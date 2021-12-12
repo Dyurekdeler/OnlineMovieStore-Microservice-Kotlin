@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+@RestController
+@RequestMapping("/orders")
 class OrderController(
     private val orderService: OrderService,
     private val orderRepository: OrderRepository
