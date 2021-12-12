@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
+@RestController
+@RequestMapping("/customers")
 class CustomerController(
     private val customerRepository: CustomerRepository
 ) {
