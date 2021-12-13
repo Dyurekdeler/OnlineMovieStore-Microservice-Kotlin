@@ -30,6 +30,8 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign
+	implementation("org.springframework.cloud:spring-cloud-starter-feign:1.4.7.RELEASE")
 
 }
 

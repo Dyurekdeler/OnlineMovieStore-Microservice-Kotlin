@@ -9,7 +9,11 @@ class OrderService(
 ) {
 
     fun placeOrder(request: OrderRequest): Order{
+        // validate user
+
         // validate quantity
+
+        // get payment
 
         // insert order
         val order = orderRepository.save(
@@ -21,6 +25,8 @@ class OrderService(
         )
 
         // update quantity
+
+        //start delivery
         return order
     }
 
