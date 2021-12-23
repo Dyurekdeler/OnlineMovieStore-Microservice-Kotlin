@@ -35,12 +35,15 @@ class PaymentController(
         return ResponseEntity(payment, HttpStatus.CREATED)
     }
 
+    /*
     @PostMapping("/cancelPayment")
     fun cancelPayment(@RequestBody payment: Payment): ResponseEntity<Payment> {
         payment.isCancelled = true
         paymentRepository.save(payment)
         return ResponseEntity(payment, HttpStatus.CREATED)
     }
+
+     */
 
     @PutMapping("/{id}")
     fun updatePayment(@RequestBody request: PaymentRequest, @PathVariable("id") id: String): ResponseEntity<Payment> {

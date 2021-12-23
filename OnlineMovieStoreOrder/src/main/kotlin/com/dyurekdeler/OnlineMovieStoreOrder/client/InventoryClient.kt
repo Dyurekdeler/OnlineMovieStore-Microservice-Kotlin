@@ -1,22 +1,18 @@
 package com.dyurekdeler.OnlineMovieStoreOrder.client
 
-import com.dyurekdeler.OnlineMovieStoreOrder.model.Customer
 import com.dyurekdeler.OnlineMovieStoreOrder.model.Movie
+import com.dyurekdeler.OnlineMovieStoreOrder.request.MovieRequest
 import org.bson.types.ObjectId
 import org.springframework.cloud.netflix.feign.FeignClient
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
+import org.springframework.web.bind.annotation.*
 
-@FeignClient("OnlineMovieStoreInventory", url = "\${onlineMovieStore.inventory.url}")
+@FeignClient("OnlineMovieStoreInventory", url = "\${OnlineMovieStore.server.inventory.url}")
 interface InventoryClient {
 
-    @GetMapping("/movies/{id}")
-    fun getMovie(id: ObjectId): Movie
+    @GetMapping("\${OnlineMovieStore.server.inventory.ws.getMovie}")
+    fun getMovie(@PathVariable id: ObjectId): Movie
 
-    @PutMapping("/movies/{id}")
-    fun updateMovie(id: ObjectId, quantity: Int): Movie
+    @PutMapping("\${onlineMovieStore.server.inventory.ws.updateMovie}")
+    fun updateMovie(@PathVariable id: ObjectId, movieRequest: MovieRequest): Movie
 
 }

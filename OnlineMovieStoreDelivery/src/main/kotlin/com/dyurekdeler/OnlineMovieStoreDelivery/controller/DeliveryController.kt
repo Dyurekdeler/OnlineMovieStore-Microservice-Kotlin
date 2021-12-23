@@ -27,7 +27,7 @@ class DeliveryController(
     }
 
     @PostMapping
-    fun createDelivery(@RequestBody request: DeliveryRequest): ResponseEntity<Delivery> {
+    fun processDelivery(@RequestBody request: DeliveryRequest): ResponseEntity<Delivery> {
         val delivery = deliveryRepository.save(Delivery(
             orderId = request.orderId,
             status = request.status,

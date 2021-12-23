@@ -5,7 +5,6 @@ import org.bson.types.ObjectId
 import org.springframework.cloud.netflix.feign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMethod
 
 @FeignClient("OnlineMovieStoreCustomer", url = "\${OnlineMovieStore.server.customer.url}")
 interface CustomerClient {

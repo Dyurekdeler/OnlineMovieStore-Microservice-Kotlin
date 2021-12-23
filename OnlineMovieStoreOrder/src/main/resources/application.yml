@@ -19,16 +19,17 @@ OnlineMovieStoreOrder:
         getCustomer: /customers/getCustomer
 
     inventory:
-      url: "http://localhost:8082/api/customer"
+      url: "http://localhost:8080/api/inventory"
       ws:
-        getCustomer: /movies/getMovie
+        getMovie: /movies/getMovie
+        updateMovie: /movies/updateMovie
 
     payment:
-      url: "http://localhost:8082/api/customer"
+      url: "http://localhost:8084/api/payment"
       ws:
         getCustomer: /customers/getCustomer
 
     delivery:
-      url: "http://localhost:8082/api/customer"
+      url: "http://localhost:8085/api/delivery"
       ws:
-        getCustomer: /customers/getCustomer
+        processDelivery: /deliveries/processDelivery
