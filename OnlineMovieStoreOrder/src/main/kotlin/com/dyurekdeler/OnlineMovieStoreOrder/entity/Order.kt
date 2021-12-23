@@ -12,7 +12,7 @@ data class Order(
     val customerId: ObjectId,
     val movieId: ObjectId,
     val quantity: Int,
-    val isCanceled: Boolean = false,
+    var isCanceled: Boolean = false,
     val createdDate: LocalDateTime = LocalDateTime.now(),
     val modifiedDate: LocalDateTime = LocalDateTime.now()
 )

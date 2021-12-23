@@ -30,6 +30,9 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.6.1")
+
 
 }
 

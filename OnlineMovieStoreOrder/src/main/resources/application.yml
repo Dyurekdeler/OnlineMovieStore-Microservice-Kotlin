@@ -10,3 +10,25 @@ eureka:
       enabled: false
 server:
   port: 8081
+
+OnlineMovieStoreOrder:
+  server:
+    customer:
+      url: "http://localhost:8082/api/customer"
+      ws:
+        getCustomer: /customers/getCustomer
+
+    inventory:
+      url: "http://localhost:8082/api/customer"
+      ws:
+        getCustomer: /movies/getMovie
+
+    payment:
+      url: "http://localhost:8082/api/customer"
+      ws:
+        getCustomer: /customers/getCustomer
+
+    delivery:
+      url: "http://localhost:8082/api/customer"
+      ws:
+        getCustomer: /customers/getCustomer

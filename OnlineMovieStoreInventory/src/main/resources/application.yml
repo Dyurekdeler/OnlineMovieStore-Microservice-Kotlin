@@ -7,6 +7,6 @@ spring:
 eureka:
   client:
     healthcheck:
-      enabled: false
+      enabled: true
 server:
   port: 8080

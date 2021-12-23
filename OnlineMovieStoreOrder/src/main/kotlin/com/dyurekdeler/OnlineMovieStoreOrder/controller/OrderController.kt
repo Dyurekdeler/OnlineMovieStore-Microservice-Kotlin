@@ -28,8 +28,8 @@ class OrderController(
         return ResponseEntity.ok(order)
     }
 
-    @PostMapping
-    fun createOrder(@RequestBody request: OrderRequest): ResponseEntity<Order> {
+    @PostMapping("/placeOrder")
+    fun placeOrder(@RequestBody request: OrderRequest): ResponseEntity<Order> {
         val order = orderService.placeOrder(request)
         return ResponseEntity(order, HttpStatus.CREATED)
     }
@@ -43,7 +43,7 @@ class OrderController(
                 movieId = request.movieId,
                 customerId = request.customerId,
                 quantity = request.quantity,
-                isCanceled = request.isCanceled,
+                isCanceled = false,
                 createdDate = order.createdDate,
                 modifiedDate = LocalDateTime.now()
             )
