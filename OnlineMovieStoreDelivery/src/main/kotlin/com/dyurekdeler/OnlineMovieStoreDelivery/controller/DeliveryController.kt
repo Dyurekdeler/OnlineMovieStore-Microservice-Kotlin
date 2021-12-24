@@ -1,16 +1,14 @@
-package com.dyurekdeler.OnlineDeliveryStoreInventory.controller
+package com.dyurekdeler.OnlineMovieStoreDelivery.controller
 
-import com.dyurekdeler.OnlineMovieStoreInventory.entity.Delivery
-import com.dyurekdeler.OnlineMovieStoreInventory.repository.DeliveryRepository
-import com.dyurekdeler.OnlineMovieStoreInventory.request.DeliveryRequest
+import com.dyurekdeler.OnlineMovieStoreDelivery.entity.Delivery
+import com.dyurekdeler.OnlineMovieStoreDelivery.repository.DeliveryRepository
+import com.dyurekdeler.OnlineMovieStoreDelivery.request.DeliveryRequest
 import org.bson.types.ObjectId
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/deliveries")
 class DeliveryController(
     private val deliveryRepository: DeliveryRepository
 ) {
@@ -26,13 +24,13 @@ class DeliveryController(
         return ResponseEntity.ok(delivery)
     }
 
-    @PostMapping
-    fun processDelivery(@RequestBody request: DeliveryRequest): ResponseEntity<Delivery> {
+    @PostMapping("/processDelivery")
+    fun processDelivery(@RequestBody request: DeliveryRequest): Delivery {
         val delivery = deliveryRepository.save(Delivery(
             orderId = request.orderId,
             status = request.status,
         ))
-        return ResponseEntity(delivery, HttpStatus.CREATED)
+        return delivery
     }
 
     @PutMapping("/{id}")

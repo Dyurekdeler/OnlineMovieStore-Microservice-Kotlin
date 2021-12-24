@@ -8,7 +8,7 @@ data class Payment (
     val id: ObjectId,
     val orderId: ObjectId,
     val paymentMethod: PaymentMethod,
-    val isCancelled: Boolean,
+    var isCancelled: Boolean,
     val createdDate: LocalDateTime,
     val modifiedDate: LocalDateTime = LocalDateTime.now()
 )

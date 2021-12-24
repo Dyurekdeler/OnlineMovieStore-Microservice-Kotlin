@@ -1,12 +1,12 @@
 package com.dyurekdeler.OnlineMovieStorePayment.service
 
 import com.dyurekdeler.OnlineMovieStoreCustomer.entity.Payment
-import com.dyurekdeler.OnlineMovieStoreCustomer.repository.PaymentRepository
+import com.dyurekdeler.OnlineMovieStorePayment.repository.PaymentRepository
 import com.dyurekdeler.OnlineMovieStoreCustomer.request.PaymentRequest
 import org.bson.types.ObjectId
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Service
 
+@Service
 class PaymentService(
     private val paymentRepository: PaymentRepository
 ) {

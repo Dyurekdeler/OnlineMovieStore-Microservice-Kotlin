@@ -20,18 +20,23 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+	implementation("org.springframework.data:spring-data-jpa:2.6.0")
+	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb
+	implementation("org.springframework.data:spring-data-mongodb:3.3.0")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.1.0")
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-config
 	implementation("org.springframework.cloud:spring-cloud-starter-config:3.1.0")
-	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign
-	implementation("org.springframework.cloud:spring-cloud-starter-feign:1.4.7.RELEASE")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
+	implementation("org.springframework.boot:spring-boot-starter-actuator:2.6.1")
+	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.0")
+
 
 }
 

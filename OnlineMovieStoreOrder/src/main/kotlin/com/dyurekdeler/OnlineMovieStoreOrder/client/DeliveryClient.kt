@@ -1,13 +1,17 @@
 package com.dyurekdeler.OnlineMovieStoreOrder.client
 
+import com.dyurekdeler.OnlineMovieStoreCustomer.request.PaymentRequest
 import com.dyurekdeler.OnlineMovieStoreInventory.request.DeliveryRequest
 import com.dyurekdeler.OnlineMovieStoreOrder.model.Delivery
-import org.springframework.cloud.netflix.feign.FeignClient
+import com.dyurekdeler.OnlineMovieStoreOrder.model.Payment
+import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 
-@FeignClient("OnlineMovieStoreDelivery", url = "\${onlineMovieStore.server.delivery.url}")
+@FeignClient(name = "OnlineMovieStoreDelivery", url = "\${OnlineMovieStore.server.delivery.url}")
 interface DeliveryClient {
 
-    @PostMapping( "\${onlineMovieStore.server.delivery.ws.processDelivery}")
+    @PostMapping("\${OnlineMovieStore.server.delivery.ws.processDelivery}")
     fun processDelivery(request: DeliveryRequest): Delivery
+
 }

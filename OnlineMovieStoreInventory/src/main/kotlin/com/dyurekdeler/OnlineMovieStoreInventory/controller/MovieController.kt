@@ -4,13 +4,13 @@ import com.dyurekdeler.OnlineMovieStoreInventory.entity.Movie
 import com.dyurekdeler.OnlineMovieStoreInventory.repository.MovieRepository
 import com.dyurekdeler.OnlineMovieStoreInventory.request.MovieRequest
 import org.bson.types.ObjectId
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/movies")
 class MovieController(
     private val movieRepository: MovieRepository
 ) {
@@ -21,19 +21,22 @@ class MovieController(
     }
 
     @GetMapping("/{id}")
-    fun getMovie(@PathVariable("id") id: String): ResponseEntity<Movie> {
+    fun getMovie(@PathVariable("id") id: String): Movie {
         val movie = movieRepository.findOneById(ObjectId(id))
-        return ResponseEntity.ok(movie)
+        return movie
     }
 
     @PostMapping
     fun createMovie(@RequestBody request: MovieRequest): ResponseEntity<Movie> {
-        val movie = movieRepository.save(Movie(
+        val movie = Movie(
             title = request.title,
             duration = request.duration,
             about = request.about,
             quantity = request.quantity
-        ))
+        )
+        val logger = LoggerFactory.getLogger(javaClass)
+        logger.info("Movie: $movie")
+        movieRepository.save(movie)
         return ResponseEntity(movie, HttpStatus.CREATED)
     }
 
@@ -56,6 +59,11 @@ class MovieController(
     fun deleteMovie(@PathVariable("id") id: String): ResponseEntity<Unit> {
         movieRepository.deleteById(id)
         return ResponseEntity.noContent().build()
+    }
+
+    @PostMapping("/changeQuantity")
+    fun changeQuantity(@RequestBody movie: Movie) {
+        movieRepository.save(movie)
     }
 
 }

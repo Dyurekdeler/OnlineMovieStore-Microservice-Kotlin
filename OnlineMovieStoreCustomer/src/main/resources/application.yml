@@ -10,3 +10,4 @@ eureka:
       enabled: false
 server:
   port: 8082
+  servlet.contextPath: /api/customers

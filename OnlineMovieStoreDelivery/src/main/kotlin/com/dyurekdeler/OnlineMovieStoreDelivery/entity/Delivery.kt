@@ -1,4 +1,4 @@
-package com.dyurekdeler.OnlineMovieStoreInventory.entity
+package com.dyurekdeler.OnlineMovieStoreDelivery.entity
 
 import com.dyurekdeler.OnlineMovieStoreDelivery.model.DeliveryStatus
 import org.bson.types.ObjectId

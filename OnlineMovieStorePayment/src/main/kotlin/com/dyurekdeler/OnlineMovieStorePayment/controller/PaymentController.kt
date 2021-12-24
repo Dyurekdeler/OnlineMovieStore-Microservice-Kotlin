@@ -1,7 +1,7 @@
 package com.dyurekdeler.OnlineMovieStorePayment.controller
 
 import com.dyurekdeler.OnlineMovieStoreCustomer.entity.Payment
-import com.dyurekdeler.OnlineMovieStoreCustomer.repository.PaymentRepository
+import com.dyurekdeler.OnlineMovieStorePayment.repository.PaymentRepository
 import com.dyurekdeler.OnlineMovieStoreCustomer.request.PaymentRequest
 import com.dyurekdeler.OnlineMovieStorePayment.service.PaymentService
 import org.bson.types.ObjectId
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/payments")
 class PaymentController(
     private val paymentRepository: PaymentRepository,
     private val paymentService: PaymentService
@@ -30,20 +29,17 @@ class PaymentController(
     }
 
     @PostMapping("/processPayment")
-    fun processPayment(@RequestBody request: PaymentRequest): ResponseEntity<Payment> {
+    fun processPayment(@RequestBody request: PaymentRequest): Payment {
         val payment = paymentService.processPayment(request)
-        return ResponseEntity(payment, HttpStatus.CREATED)
+        return payment
     }
 
-    /*
     @PostMapping("/cancelPayment")
     fun cancelPayment(@RequestBody payment: Payment): ResponseEntity<Payment> {
         payment.isCancelled = true
         paymentRepository.save(payment)
         return ResponseEntity(payment, HttpStatus.CREATED)
     }
-
-     */
 
     @PutMapping("/{id}")
     fun updatePayment(@RequestBody request: PaymentRequest, @PathVariable("id") id: String): ResponseEntity<Payment> {

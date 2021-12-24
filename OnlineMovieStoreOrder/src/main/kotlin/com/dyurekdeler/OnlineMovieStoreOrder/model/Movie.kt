@@ -9,7 +9,7 @@ data class Movie (
     val title: String,
     val duration: Int,
     val about: String,
-    val quantity: Int,
+    var quantity: Int,
     val createdDate: LocalDateTime,
     val modifiedDate: LocalDateTime = LocalDateTime.now()
 )

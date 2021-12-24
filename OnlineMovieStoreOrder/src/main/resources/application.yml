@@ -7,29 +7,33 @@ spring:
 eureka:
   client:
     healthcheck:
-      enabled: false
+      enabled: true
+
 server:
   port: 8081
+  servlet.contextPath: /api/orders
 
-OnlineMovieStoreOrder:
+OnlineMovieStore:
   server:
     customer:
-      url: "http://localhost:8082/api/customer"
+      url: "http://localhost:8082/api/customers"
       ws:
-        getCustomer: /customers/getCustomer
+        getCustomer: /{id}
 
     inventory:
-      url: "http://localhost:8080/api/inventory"
+      url: "http://localhost:8080/api/movies"
       ws:
-        getMovie: /movies/getMovie
-        updateMovie: /movies/updateMovie
+        getMovie: /{id}
+        changeQuantity: /changeQuantity
 
     payment:
-      url: "http://localhost:8084/api/payment"
+      url: "http://localhost:8084/api/payments"
       ws:
-        getCustomer: /customers/getCustomer
+        processPayment: /processPayment
+        cancelPayment: /cancelPayment
+
 
     delivery:
-      url: "http://localhost:8085/api/delivery"
+      url: "http://localhost:8085/api/deliveries"
       ws:
-        processDelivery: /deliveries/processDelivery
+        processDelivery: /processDelivery

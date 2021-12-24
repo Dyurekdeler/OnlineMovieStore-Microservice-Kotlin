@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @RestController
-@RequestMapping("/orders")
 class OrderController(
     private val orderService: OrderService,
     private val orderRepository: OrderRepository
@@ -41,7 +41,7 @@ class OrderController(
             Order(
                 id = order.id,
                 movieId = request.movieId,
-                customerId = request.customerId,
+                customerId =  request.customerId,
                 quantity = request.quantity,
                 isCanceled = false,
                 createdDate = order.createdDate,

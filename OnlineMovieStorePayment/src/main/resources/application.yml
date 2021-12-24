@@ -10,3 +10,4 @@ eureka:
       enabled: false
 server:
   port: 8084
+  servlet.contextPath: /api/payments

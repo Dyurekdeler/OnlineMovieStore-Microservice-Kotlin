@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping("/customers")
 class CustomerController(
     private val customerRepository: CustomerRepository
 ) {
@@ -22,9 +21,9 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable("id") id: String): ResponseEntity<Customer> {
+    fun getCustomer(@PathVariable("id") id: String): Customer {
         val customer = customerRepository.findOneById(ObjectId(id))
-        return ResponseEntity.ok(customer)
+        return customer
     }
 
     @PostMapping
@@ -39,7 +38,7 @@ class CustomerController(
     }
 
     @PutMapping("/{id}")
-    fun updateCustomer(@RequestBody request: CustomerRequest, @PathVariable("id") id: String): ResponseEntity<Customer> {
+    fun updateCustomer(@PathVariable("id") id: String, @RequestBody request: CustomerRequest, ): ResponseEntity<Customer> {
         val customer = customerRepository.findOneById(ObjectId(id))
         val updatedCustomer = customerRepository.save(
             Customer(
