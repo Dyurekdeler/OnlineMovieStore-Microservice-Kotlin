@@ -7,17 +7,11 @@ import com.dyurekdeler.OnlineMovieStoreOrder.client.DeliveryClient
 import com.dyurekdeler.OnlineMovieStoreOrder.client.InventoryClient
 import com.dyurekdeler.OnlineMovieStoreOrder.client.PaymentClient
 import com.dyurekdeler.OnlineMovieStoreOrder.entity.Order
-import com.dyurekdeler.OnlineMovieStoreOrder.model.Delivery
-import com.dyurekdeler.OnlineMovieStoreOrder.model.DeliveryStatus
-import com.dyurekdeler.OnlineMovieStoreOrder.model.Payment
-import com.dyurekdeler.OnlineMovieStoreOrder.model.PaymentMethod
+import com.dyurekdeler.OnlineMovieStoreOrder.model.*
 import com.dyurekdeler.OnlineMovieStoreOrder.repository.OrderRepository
-import com.dyurekdeler.OnlineMovieStoreOrder.request.MovieRequest
 import com.dyurekdeler.OnlineMovieStoreOrder.request.OrderRequest
-import org.bson.types.ObjectId
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class OrderService(
@@ -36,8 +30,7 @@ class OrderService(
         customerClient.getCustomer(request.customerId.toString())?.let {
             // validate quantity
             val movie = inventoryClient.getMovie(request.movieId)
-            logger.info(">>Validating quantity. Movie: ${movie.quantity}")
-            if (movie.quantity < request.quantity) throw Exception("Movie has not enough quantity")
+            if (movie.quantity < request.quantity) throw Exception("Movie has not enough quantity!")
 
 
             // insert order
@@ -59,26 +52,23 @@ class OrderService(
                     false
                 )
                 payment = paymentClient.processPayment(paymentRequest)
-                logger.info("Processing payment. Payment: $payment")
+                logger.info(">>Processing payment. Payment: $payment")
             } catch (e: Exception) {
                 cancelOrder(order)
                 logger.error(e.toString())
-                throw Exception("Payment process failed")
+                throw Exception("Payment process failed!")
             }
 
 
             // update quantity
             try {
-                val newQuantity = movie.quantity - request.quantity
-                movie.quantity = newQuantity
-                inventoryClient.changeQuantity(movie)
-                logger.info("Inventory updating. Movie qu: ${movie.quantity}")
+                logger.info(">> Movie quantity before order processing update. Movie: $movie, Quantity: ${movie.quantity}")
+                updateInventory(movie, request.quantity, false)
             } catch (e: Exception) {
                 logger.error(e.toString())
-                payment.isCancelled = true
-                paymentClient.cancelPayment(payment)
+                cancelPayment(payment)
                 cancelOrder(order)
-                throw Exception("Update inventory process failed")
+                throw Exception("Update inventory process failed!")
             }
 
             // start delivery
@@ -88,32 +78,45 @@ class OrderService(
                     DeliveryStatus.Preparing
                 )
                 deliveryClient.processDelivery(deliveryRequest)
-                logger.info("Processing delivery.")
+                logger.info(">>Processing delivery")
             } catch (e: Exception) {
                 logger.error(e.toString())
-                logger.info("deniz")
-                val oldQuantity = movie.quantity + request.quantity
-                movie.quantity = oldQuantity
-                inventoryClient.changeQuantity(movie)
-                logger.info("change quantity worked")
-                payment.isCancelled = true
-                paymentClient.cancelPayment(payment)
-                logger.info("cancel payment worked")
+                logger.info(">> Movie quantity before cancellation update. Movie: $movie, Quantity: ${movie.quantity}")
+                updateInventory(movie, request.quantity, true)
+                cancelPayment(payment)
                 cancelOrder(order)
-                logger.info("cancel order worked")
-                throw Exception("Start delivery failed")
+                throw Exception("Start delivery failed!")
             }
 
             return order
 
-        } ?: throw Exception("Customer not found")
+        } ?: throw Exception("Customer not found!")
 
     }
 
     fun cancelOrder(order: Order): Order {
         order.isCanceled = true
         orderRepository.save(order)
+        logger.info(">>>> Order cancelled. Order: $order")
         return order
+    }
+
+    fun cancelPayment(payment: Payment): Payment {
+        payment.isCancelled = true
+        paymentClient.cancelPayment(payment)
+        logger.info(">>>> Payment cancelled. Payment: $payment")
+        return payment
+    }
+
+    fun updateInventory(movie: Movie, quantity: Int, isIncrease: Boolean) {
+        val updatedQuantity: Int
+        if (isIncrease)
+            updatedQuantity = movie.quantity + quantity
+        else
+            updatedQuantity = movie.quantity - quantity
+        movie.quantity = updatedQuantity
+        inventoryClient.changeQuantity(movie)
+        logger.info(">>>> Updated movie quantity. Movie: $movie, Quantity: ${movie.quantity}")
     }
 
 
