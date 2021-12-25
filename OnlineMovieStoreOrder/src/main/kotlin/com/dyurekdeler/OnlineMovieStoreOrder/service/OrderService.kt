@@ -41,7 +41,7 @@ class OrderService(
                 isCanceled = false
             )
             orderRepository.save(order)
-            logger.info(">>Inserting order. Order: $order")
+            logger.info(">> Inserting order. Order: $order")
 
             // get payment
             val payment: Payment
@@ -52,7 +52,7 @@ class OrderService(
                     false
                 )
                 payment = paymentClient.processPayment(paymentRequest)
-                logger.info(">>Processing payment. Payment: $payment")
+                logger.info(">> Processing payment. Payment: $payment")
             } catch (e: Exception) {
                 cancelOrder(order)
                 logger.error(e.toString())
@@ -62,7 +62,7 @@ class OrderService(
 
             // update quantity
             try {
-                logger.info(">> Movie quantity before order processing update. Movie: $movie, Quantity: ${movie.quantity}")
+                logger.info(">> Movie quantity before order processing update. Movie: ${movie.title}, Quantity: ${movie.quantity}")
                 updateInventory(movie, request.quantity, false)
             } catch (e: Exception) {
                 logger.error(e.toString())
@@ -78,10 +78,10 @@ class OrderService(
                     DeliveryStatus.Preparing
                 )
                 deliveryClient.processDelivery(deliveryRequest)
-                logger.info(">>Processing delivery")
+                logger.info(">> Processing delivery")
             } catch (e: Exception) {
                 logger.error(e.toString())
-                logger.info(">> Movie quantity before cancellation update. Movie: $movie, Quantity: ${movie.quantity}")
+                logger.info(">> Movie quantity before cancellation update. Movie: ${movie.title}, Quantity: ${movie.quantity}")
                 updateInventory(movie, request.quantity, true)
                 cancelPayment(payment)
                 cancelOrder(order)
@@ -116,7 +116,7 @@ class OrderService(
             updatedQuantity = movie.quantity - quantity
         movie.quantity = updatedQuantity
         inventoryClient.changeQuantity(movie)
-        logger.info(">>>> Updated movie quantity. Movie: $movie, Quantity: ${movie.quantity}")
+        logger.info(">>> Updated movie quantity. Movie: ${movie.title}, Quantity: ${movie.quantity}")
     }
 
 

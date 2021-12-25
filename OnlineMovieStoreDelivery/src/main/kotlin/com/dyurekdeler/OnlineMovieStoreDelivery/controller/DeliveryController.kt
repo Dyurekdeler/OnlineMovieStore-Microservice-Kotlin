@@ -4,6 +4,7 @@ import com.dyurekdeler.OnlineMovieStoreDelivery.entity.Delivery
 import com.dyurekdeler.OnlineMovieStoreDelivery.repository.DeliveryRepository
 import com.dyurekdeler.OnlineMovieStoreDelivery.request.DeliveryRequest
 import org.bson.types.ObjectId
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -30,6 +31,7 @@ class DeliveryController(
             orderId = request.orderId,
             status = request.status,
         ))
+        // throw Exception("BAD REQUEST ON PURPOSE FOR ROLLBACK SCENARIO")
         return delivery
     }
 
