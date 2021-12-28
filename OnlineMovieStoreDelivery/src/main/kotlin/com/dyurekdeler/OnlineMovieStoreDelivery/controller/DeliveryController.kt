@@ -20,8 +20,8 @@ class DeliveryController(
     @PostMapping()
     fun createDelivery(@RequestBody request: DeliveryRequest): Delivery {
         val delivery = deliveryService.createDelivery(request)
-        throw Exception("BAD REQUEST ON PURPOSE FOR ROLLBACK SCENARIO")
-        //return delivery
+        // throw Exception("BAD REQUEST ON PURPOSE FOR ROLLBACK SCENARIO")
+        return delivery
     }
 
     @PutMapping("/{id}")

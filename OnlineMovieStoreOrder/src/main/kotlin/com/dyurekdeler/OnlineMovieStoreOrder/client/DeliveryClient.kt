@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 @FeignClient(name = "OnlineMovieStoreDelivery", url = "\${OnlineMovieStore.server.delivery.url}")
 interface DeliveryClient {
 
-    @PostMapping("\${OnlineMovieStore.server.delivery.ws.processDelivery}")
-    fun processDelivery(request: DeliveryRequest): Delivery
+    @PostMapping("\${OnlineMovieStore.server.delivery.ws.createDelivery}")
+    fun createDelivery(request: DeliveryRequest): Delivery
 
 }

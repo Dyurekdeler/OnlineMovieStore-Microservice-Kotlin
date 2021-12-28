@@ -9,9 +9,11 @@ import com.dyurekdeler.OnlineMovieStoreOrder.client.PaymentClient
 import com.dyurekdeler.OnlineMovieStoreOrder.entity.Order
 import com.dyurekdeler.OnlineMovieStoreOrder.model.*
 import com.dyurekdeler.OnlineMovieStoreOrder.repository.OrderRepository
+import com.dyurekdeler.OnlineMovieStoreOrder.request.MovieRequest
 import com.dyurekdeler.OnlineMovieStoreOrder.request.OrderRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class OrderService(
@@ -25,6 +27,40 @@ class OrderService(
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    fun findById(id: String): Order {
+        return orderRepository.findById(id)
+            .orElseThrow{ java.lang.Exception("Order with $id is not found") }
+    }
+
+    fun createOrder(request: OrderRequest): Order {
+        val order = orderRepository.save(
+            Order(
+                customerId = request.customerId,
+                movieId = request.movieId,
+                quantity = request.quantity
+            )
+        )
+        return order
+    }
+
+    fun updateOrder(id: String, request: OrderRequest): Order {
+        val orderToUpdate = findById(id)
+        val updatedOrder = orderRepository.save(
+            orderToUpdate.apply {
+                customerId = request.customerId
+                movieId = request.movieId
+                quantity = request.quantity
+                isCanceled = request.isCancelled
+            }
+        )
+        return updatedOrder
+    }
+
+    fun deleteById(id:String) {
+        val orderToDelete = findById(id)
+        orderRepository.delete(orderToDelete)
+    }
+
     fun placeOrder(request: OrderRequest): Order{
 
         // validate user
@@ -35,13 +71,7 @@ class OrderService(
             if (movie.quantity < request.quantity) throw Exception("Movie has not enough quantity!")
 
             // insert order
-            val order = Order(
-                movieId = request.movieId,
-                customerId = request.customerId,
-                quantity = request.quantity,
-                isCanceled = false
-            )
-            orderRepository.save(order)
+            val order = createOrder(request)
             logger.info(">> Inserting order. Order: $order")
 
             // get payment
@@ -78,7 +108,7 @@ class OrderService(
                     order.id!!,
                     DeliveryStatus.Preparing
                 )
-                deliveryClient.processDelivery(deliveryRequest)
+                deliveryClient.createDelivery(deliveryRequest)
                 logger.info(">> Processing delivery")
             } catch (e: Exception) {
                 logger.error(e.toString())
@@ -120,7 +150,13 @@ class OrderService(
         else
             movie.quantity - quantity
         movie.quantity = updatedQuantity
-        inventoryClient.changeQuantity(movie)
+        val movieRequest = MovieRequest(
+            title = movie.title,
+            about = movie.about,
+            duration = movie.duration,
+            quantity = updatedQuantity
+        )
+        inventoryClient.updateMovie(movie.id, movieRequest)
         logger.info(">>> Updated movie quantity. Movie: ${movie.title}, Quantity: ${movie.quantity}")
     }
 

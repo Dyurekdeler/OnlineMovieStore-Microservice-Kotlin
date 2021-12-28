@@ -24,7 +24,7 @@ OnlineMovieStore:
       url: "http://localhost:8080/api/movies"
       ws:
         getMovie: /{id}
-        changeQuantity: /changeQuantity
+        updateMovie: /{id}
 
     payment:
       url: "http://localhost:8084/api/payments"
@@ -32,8 +32,7 @@ OnlineMovieStore:
         createPayment: /
         updatePayment: /{id}
 
-
     delivery:
       url: "http://localhost:8085/api/deliveries"
       ws:
-        processDelivery: /processDelivery
+        createDelivery: /

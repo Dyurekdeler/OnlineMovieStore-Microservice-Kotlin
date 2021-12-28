@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 data class Order(
     @Id
     val id: String? = null,
-    val customerId: String,
-    val movieId: String,
-    val quantity: Int,
+    var customerId: String,
+    var movieId: String,
+    var quantity: Int,
     var isCanceled: Boolean = false,
     val createdDate: LocalDateTime = LocalDateTime.now(),
     val modifiedDate: LocalDateTime = LocalDateTime.now()
