@@ -8,11 +8,11 @@ import java.time.LocalDateTime
 @Document
 data class Customer (
     @Id
-    val id: ObjectId = ObjectId.get(),
-    val firstname: String,
-    val lastname: String,
-    val address: String,
-    val phone: String,
+    val id: String? = null,
+    var firstname: String,
+    var lastname: String,
+    var address: String,
+    var phone: String,
     val createdDate: LocalDateTime = LocalDateTime.now(),
     val modifiedDate: LocalDateTime = LocalDateTime.now()
 )

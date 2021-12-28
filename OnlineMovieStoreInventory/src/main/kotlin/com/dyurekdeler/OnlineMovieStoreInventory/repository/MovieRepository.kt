@@ -7,6 +7,4 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MovieRepository: MongoRepository<Movie, String> {
-    fun findOneById(id: ObjectId): Movie
-    override fun deleteAll()
 }
