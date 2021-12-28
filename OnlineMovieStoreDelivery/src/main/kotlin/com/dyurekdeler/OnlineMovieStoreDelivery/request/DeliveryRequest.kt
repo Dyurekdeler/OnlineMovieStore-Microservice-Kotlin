@@ -1,9 +1,8 @@
 package com.dyurekdeler.OnlineMovieStoreDelivery.request
 
 import com.dyurekdeler.OnlineMovieStoreDelivery.model.DeliveryStatus
-import org.bson.types.ObjectId
 
 class DeliveryRequest (
-    val orderId: ObjectId,
+    val orderId: String,
     val status: DeliveryStatus
 )

@@ -4,9 +4,11 @@ import com.dyurekdeler.OnlineMovieStoreInventory.entity.Movie
 import com.dyurekdeler.OnlineMovieStoreInventory.repository.MovieRepository
 import com.dyurekdeler.OnlineMovieStoreInventory.request.MovieRequest
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.lang.Exception
 import java.time.LocalDateTime
 
+@Service
 class MovieService(
     private val movieRepository: MovieRepository
 ) {

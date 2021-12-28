@@ -1,12 +1,9 @@
 package com.dyurekdeler.OnlineMovieStoreDelivery.repository
 
 import com.dyurekdeler.OnlineMovieStoreDelivery.entity.Delivery
-import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
 interface DeliveryRepository: MongoRepository<Delivery, String> {
-    fun findOneById(id: ObjectId): Delivery
-    override fun deleteAll()
 }
