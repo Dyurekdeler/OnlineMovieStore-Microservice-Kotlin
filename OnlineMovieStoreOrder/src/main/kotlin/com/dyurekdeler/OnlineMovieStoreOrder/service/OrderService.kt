@@ -26,12 +26,13 @@ class OrderService(
     private val logger = LoggerFactory.getLogger(javaClass)
 
     fun placeOrder(request: OrderRequest): Order{
+
         // validate user
         customerClient.getCustomer(request.customerId.toString())?.let {
+
             // validate quantity
             val movie = inventoryClient.getMovie(request.movieId)
             if (movie.quantity < request.quantity) throw Exception("Movie has not enough quantity!")
-
 
             // insert order
             val order = Order(
@@ -47,11 +48,11 @@ class OrderService(
             val payment: Payment
             try {
                 val paymentRequest = PaymentRequest(
-                    orderId = order.id,
+                    orderId = order.id.toString(),
                     request.paymentMethod,
                     false
                 )
-                payment = paymentClient.processPayment(paymentRequest)
+                payment = paymentClient.createPayment(paymentRequest)
                 logger.info(">> Processing payment. Payment: $payment")
             } catch (e: Exception) {
                 cancelOrder(order)
@@ -74,7 +75,7 @@ class OrderService(
             // start delivery
             try {
                 val deliveryRequest = DeliveryRequest(
-                    order.id,
+                    order.id!!,
                     DeliveryStatus.Preparing
                 )
                 deliveryClient.processDelivery(deliveryRequest)
@@ -83,6 +84,7 @@ class OrderService(
                 logger.error(e.toString())
                 logger.info(">> Movie quantity before cancellation update. Movie: ${movie.title}, Quantity: ${movie.quantity}")
                 updateInventory(movie, request.quantity, true)
+                logger.info("DELIVERY CATCCH BLOCK $payment")
                 cancelPayment(payment)
                 cancelOrder(order)
                 throw Exception("Start delivery failed!")
@@ -102,18 +104,21 @@ class OrderService(
     }
 
     fun cancelPayment(payment: Payment): Payment {
-        payment.isCancelled = true
-        paymentClient.cancelPayment(payment)
+        val paymentRequest = PaymentRequest(
+            payment.orderId,
+            payment.paymentMethod,
+            isCancelled = true
+        )
+        paymentClient.updatePayment(payment.id, paymentRequest)
         logger.info(">>>> Payment cancelled. Payment: $payment")
         return payment
     }
 
     fun updateInventory(movie: Movie, quantity: Int, isIncrease: Boolean) {
-        val updatedQuantity: Int
-        if (isIncrease)
-            updatedQuantity = movie.quantity + quantity
+        val updatedQuantity: Int = if (isIncrease)
+            movie.quantity + quantity
         else
-            updatedQuantity = movie.quantity - quantity
+            movie.quantity - quantity
         movie.quantity = updatedQuantity
         inventoryClient.changeQuantity(movie)
         logger.info(">>> Updated movie quantity. Movie: ${movie.title}, Quantity: ${movie.quantity}")

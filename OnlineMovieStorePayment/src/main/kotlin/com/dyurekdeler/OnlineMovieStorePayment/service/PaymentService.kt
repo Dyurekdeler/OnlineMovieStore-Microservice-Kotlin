@@ -1,18 +1,27 @@
 package com.dyurekdeler.OnlineMovieStorePayment.service
 
-import com.dyurekdeler.OnlineMovieStoreCustomer.entity.Payment
+import com.dyurekdeler.OnlineMovieStorePayment.entity.Payment
 import com.dyurekdeler.OnlineMovieStorePayment.repository.PaymentRepository
-import com.dyurekdeler.OnlineMovieStoreCustomer.request.PaymentRequest
+import com.dyurekdeler.OnlineMovieStorePayment.request.PaymentRequest
 import org.bson.types.ObjectId
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.lang.Exception
+import java.time.LocalDateTime
 
 @Service
 class PaymentService(
     private val paymentRepository: PaymentRepository
 ) {
 
-    fun processPayment(request: PaymentRequest): Payment {
-        // save payment info
+    private val logger = LoggerFactory.getLogger(javaClass)
+
+    fun findById(id: String): Payment {
+        return paymentRepository.findById(id)
+            .orElseThrow{ Exception("Payment with $id is not found") }
+    }
+
+    fun createPayment(request: PaymentRequest): Payment {
         val payment = paymentRepository.save(
             Payment(
                 orderId = request.orderId,
@@ -20,7 +29,26 @@ class PaymentService(
                 isCancelled = request.isCancelled
             )
         )
+        logger.info("Payment created is $payment")
         return payment
+    }
+
+    fun updatePayment(id: String, request: PaymentRequest): Payment {
+        val paymentToUpdate = findById(id)
+        val updatedPayment = paymentRepository.save(
+            paymentToUpdate.apply {
+                orderId = request.orderId
+                paymentMethod = request.paymentMethod
+                isCancelled = request.isCancelled
+                modifiedDate = LocalDateTime.now()
+            }
+        )
+        return updatedPayment
+    }
+
+    fun deleteById(id:String) {
+        val paymentToDelete = findById(id)
+        paymentRepository.delete(paymentToDelete)
     }
 
 
@@ -36,13 +64,6 @@ class PaymentService(
             // hata topic'ine msj at
 
         // inventory topic msj inventory devam etsin
-    }
-
-    fun cancelPayment(paymentId: ObjectId): Payment {
-        var payment = paymentRepository.findOneById(paymentId)
-        payment.isCancelled = true
-        paymentRepository.save(payment)
-        return payment
     }
 
 }

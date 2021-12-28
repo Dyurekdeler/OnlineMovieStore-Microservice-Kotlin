@@ -29,8 +29,8 @@ OnlineMovieStore:
     payment:
       url: "http://localhost:8084/api/payments"
       ws:
-        processPayment: /processPayment
-        cancelPayment: /cancelPayment
+        createPayment: /
+        updatePayment: /{id}
 
 
     delivery:

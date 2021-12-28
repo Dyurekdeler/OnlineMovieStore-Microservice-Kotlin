@@ -31,8 +31,8 @@ class DeliveryController(
             orderId = request.orderId,
             status = request.status,
         ))
-        // throw Exception("BAD REQUEST ON PURPOSE FOR ROLLBACK SCENARIO")
-        return delivery
+        throw Exception("BAD REQUEST ON PURPOSE FOR ROLLBACK SCENARIO")
+        //return delivery
     }
 
     @PutMapping("/{id}")

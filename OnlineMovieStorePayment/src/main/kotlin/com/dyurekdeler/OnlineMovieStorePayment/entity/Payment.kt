@@ -1,4 +1,4 @@
-package com.dyurekdeler.OnlineMovieStoreCustomer.entity
+package com.dyurekdeler.OnlineMovieStorePayment.entity
 
 import com.dyurekdeler.OnlineMovieStorePayment.model.PaymentMethod
 import org.springframework.data.annotation.Id
@@ -9,10 +9,10 @@ import java.time.LocalDateTime
 @Document
 data class Payment (
     @Id
-    val id: ObjectId = ObjectId.get(),
-    val orderId: ObjectId,
-    val paymentMethod: PaymentMethod,
+    val id: String? = null,
+    var orderId: String,
+    var paymentMethod: PaymentMethod,
     var isCancelled: Boolean,
     val createdDate: LocalDateTime = LocalDateTime.now(),
-    val modifiedDate: LocalDateTime = LocalDateTime.now()
+    var modifiedDate: LocalDateTime = LocalDateTime.now()
 )

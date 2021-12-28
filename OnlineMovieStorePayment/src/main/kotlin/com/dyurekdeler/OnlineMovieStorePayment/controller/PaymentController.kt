@@ -1,65 +1,41 @@
 package com.dyurekdeler.OnlineMovieStorePayment.controller
 
-import com.dyurekdeler.OnlineMovieStoreCustomer.entity.Payment
+import com.dyurekdeler.OnlineMovieStorePayment.entity.Payment
 import com.dyurekdeler.OnlineMovieStorePayment.repository.PaymentRepository
-import com.dyurekdeler.OnlineMovieStoreCustomer.request.PaymentRequest
+import com.dyurekdeler.OnlineMovieStorePayment.request.PaymentRequest
 import com.dyurekdeler.OnlineMovieStorePayment.service.PaymentService
 import org.bson.types.ObjectId
+import org.slf4j.LoggerFactory
+import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.lang.Exception
 import java.time.LocalDateTime
 
 @RestController
 class PaymentController(
-    private val paymentRepository: PaymentRepository,
     private val paymentService: PaymentService
 ) {
-
-    @GetMapping()
-    fun getAllPayments(): ResponseEntity<List<Payment>> {
-        val payments = paymentRepository.findAll()
-        return ResponseEntity.ok(payments)
-    }
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping("/{id}")
-    fun getPayment(@PathVariable("id") id: String): ResponseEntity<Payment> {
-        val payment = paymentRepository.findOneById(ObjectId(id))
-        return ResponseEntity.ok(payment)
+    fun getPayment(@PathVariable("id") id: String): Payment {
+        return paymentService.findById(id)
     }
 
-    @PostMapping("/processPayment")
-    fun processPayment(@RequestBody request: PaymentRequest): Payment {
-        val payment = paymentService.processPayment(request)
-        return payment
-    }
-
-    @PostMapping("/cancelPayment")
-    fun cancelPayment(@RequestBody payment: Payment): ResponseEntity<Payment> {
-        payment.isCancelled = true
-        paymentRepository.save(payment)
-        return ResponseEntity(payment, HttpStatus.CREATED)
+    @PostMapping()
+    fun createPayment(@RequestBody request: PaymentRequest): Payment {
+        return paymentService.createPayment(request)
     }
 
     @PutMapping("/{id}")
-    fun updatePayment(@RequestBody request: PaymentRequest, @PathVariable("id") id: String): ResponseEntity<Payment> {
-        val payment = paymentRepository.findOneById(ObjectId(id))
-        val updatedPayment = paymentRepository.save(
-            Payment(
-                id = payment.id,
-                orderId = request.orderId,
-                paymentMethod = request.paymentMethod,
-                isCancelled = request.isCancelled,
-                createdDate = payment.createdDate,
-                modifiedDate = LocalDateTime.now()
-            )
-        )
-        return ResponseEntity.ok(updatedPayment)
+    fun updatePayment(@RequestBody request: PaymentRequest, @PathVariable("id") id: String): Payment {
+        return paymentService.updatePayment(id, request)
     }
 
     @DeleteMapping("/{id}")
-    fun deletePayment(@PathVariable("id") id: String): ResponseEntity<Unit> {
-        paymentRepository.deleteById(id)
-        return ResponseEntity.noContent().build()
+    fun deletePayment(@PathVariable("id") id: String) {
+        return paymentService.deleteById(id)
     }
 }
